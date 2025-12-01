@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.themasterroot.listafacil",
+      "sha256_cert_fingerprints":
+      ["5F:A7:C9:20:BD:A4:13:AC:49:31:DF:5A:F6:E8:18:80:B3:65:EF:50:C3:8B:F6:F5:7A:2D:8D:99:DA:E7:B0:1C"]
+    }
+  }
+]
