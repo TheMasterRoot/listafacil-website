@@ -100,7 +100,7 @@
                 <div id="downloadAppContainer" class="hidden mt-6">
                     <p class="text-gray-600 mb-4">Não tem o app instalado?</p>
                     <a 
-                        href="https://play.google.com/store/apps/details?id=br.com.pdvagil.listafacil" 
+                        href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" 
                         target="_blank"
                         class="inline-block bg-black text-white px-8 py-4 rounded-xl hover:bg-gray-900 transition"
                     >
@@ -177,9 +177,12 @@
             }
 
             // Monta o deep link: listafacil://import?url=<valor-extraído>
-            const deepLink = `listafacil://import?url=${encodeURIComponent(urlParam)}`;
+            // Não usar encodeURIComponent pois o base64 já é seguro para URL
+            // (exceto = que vira %3D, mas o Android pode ter problemas com isso)
+            const deepLink = `listafacil://import?url=${urlParam}`;
             
             console.log('🔗 Tentando abrir app com deep link:', deepLink);
+            console.log('🔗 URL param (base64):', urlParam);
             
             // Tenta abrir o app
             window.location.href = deepLink;
