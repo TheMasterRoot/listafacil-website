@@ -436,7 +436,7 @@
                                     target="_blank"
                                     class="text-purple-600 hover:text-purple-700 font-semibold text-sm flex items-center"
                                 >
-                                    Ver receita completa no app
+                                    Ver no app
                                     <i class="fas fa-arrow-right ml-2"></i>
                                 </a>
                             </div>
@@ -476,7 +476,8 @@
             const showing = filteredRecipes.length;
             
             if (showing === total) {
-                countText.textContent = `${total} receita${total !== 1 ? 's' : ''} disponível${total !== 1 ? 'eis' : ''}`;
+                const disponibilidade = total !== 1 ? 'disponíveis' : 'disponível';
+                countText.textContent = `${total} receita${total !== 1 ? 's' : ''} ${disponibilidade}`;
             } else {
                 countText.textContent = `Mostrando ${showing} de ${total} receita${total !== 1 ? 's' : ''}`;
             }
