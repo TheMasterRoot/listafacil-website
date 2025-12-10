@@ -421,9 +421,10 @@
                                 <div class="mb-4">
                                     <p class="text-sm font-semibold text-gray-700 mb-2">Ingredientes principais:</p>
                                     <ul class="text-sm text-gray-600 space-y-1">
-                                        ${ingredients.slice(0, 3).map(ing => `
-                                            <li>• ${escapeHtml(ing.name)} ${ing.quantity > 0 ? `(${ing.quantity} ${ing.unit})` : ''}</li>
-                                        `).join('')}
+                                        ${ingredients.slice(0, 3).map(ing => {
+                                            const formattedQty = formatQuantity(ing.quantity);
+                                            return `<li>• ${escapeHtml(ing.name)} ${formattedQty ? `(${formattedQty} ${ing.unit})` : ''}</li>`;
+                                        }).join('')}
                                         ${ingredients.length > 3 ? `<li class="text-gray-400">+ ${ingredients.length - 3} mais...</li>` : ''}
                                     </ul>
                                 </div>
@@ -497,9 +498,10 @@
                     "recipeCuisine": "Brasileira",
                     "prepTime": recipe.prep_time_minutes ? `PT${recipe.prep_time_minutes}M` : undefined,
                     "recipeYield": recipe.servings ? `${recipe.servings} porções` : undefined,
-                    "recipeIngredient": ingredients.map(ing => 
-                        `${ing.quantity > 0 ? `${ing.quantity} ${ing.unit} de ` : ''}${ing.name}`
-                    ),
+                    "recipeIngredient": ingredients.map(ing => {
+                        const formattedQty = formatQuantity(ing.quantity);
+                        return `${formattedQty ? `${formattedQty} ${ing.unit} de ` : ''}${ing.name}`;
+                    }),
                     "recipeInstructions": recipe.instructions,
                     "author": {
                         "@type": "Organization",
@@ -536,6 +538,15 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+        
+        // Formata quantidade com até 3 casas decimais
+        function formatQuantity(quantity) {
+            if (!quantity || quantity === 0) return '';
+            const num = parseFloat(quantity);
+            if (isNaN(num)) return '';
+            // Formata com até 3 casas decimais e remove zeros à direita
+            return parseFloat(num.toFixed(3)).toString();
         }
         
         // Mobile menu toggle
