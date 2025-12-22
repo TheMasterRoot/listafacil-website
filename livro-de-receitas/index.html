@@ -37,19 +37,6 @@
     
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Garante que supabase não seja redeclarado
-        if (typeof window.supabaseClient === 'undefined') {
-            // Aguarda o script do Supabase carregar
-            window.addEventListener('load', function() {
-                if (window.supabase && !window.supabaseClient) {
-                    const SUPABASE_URL = 'https://uaaukhylcyvqsevclkcx.supabase.co';
-                    const SUPABASE_ANON_KEY = 'sb_publishable_JR-ASPLGrprOg8zcubaCbw_KseCfx9-';
-                    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                }
-            });
-        }
-    </script>
     
     <style>
         body {
@@ -269,20 +256,31 @@
     </footer>
 
     <script>
-        // Configuração Supabase
-        // Usa o cliente já inicializado ou cria um novo se necessário
-        let supabase;
-        if (window.supabaseClient) {
-            supabase = window.supabaseClient;
-        } else {
-            const SUPABASE_URL = 'https://uaaukhylcyvqsevclkcx.supabase.co';
-            const SUPABASE_ANON_KEY = 'sb_publishable_JR-ASPLGrprOg8zcubaCbw_KseCfx9-';
-            if (window.supabase) {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                window.supabaseClient = supabase; // Armazena para evitar redeclaração
-            } else {
-                console.error('Supabase não carregou corretamente');
+        // Função helper para obter cliente Supabase de forma segura
+        // Evita redeclaração usando window.supabaseClient como cache
+        function getSupabaseClient() {
+            if (window.supabaseClient) {
+                return window.supabaseClient;
             }
+            if (window.supabase && typeof window.supabase.createClient === 'function') {
+                const SUPABASE_URL = 'https://uaaukhylcyvqsevclkcx.supabase.co';
+                const SUPABASE_ANON_KEY = 'sb_publishable_JR-ASPLGrprOg8zcubaCbw_KseCfx9-';
+                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                return window.supabaseClient;
+            }
+            // Se ainda não carregou, aguarda um pouco e tenta novamente
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    if (window.supabase && typeof window.supabase.createClient === 'function') {
+                        const SUPABASE_URL = 'https://uaaukhylcyvqsevclkcx.supabase.co';
+                        const SUPABASE_ANON_KEY = 'sb_publishable_JR-ASPLGrprOg8zcubaCbw_KseCfx9-';
+                        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                        resolve(window.supabaseClient);
+                    } else {
+                        throw new Error('Supabase não está disponível');
+                    }
+                }, 100);
+            });
         }
         
         // Estado
@@ -302,7 +300,7 @@
         // Carrega categorias
         async function loadCategories() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await (await getSupabaseClient())
                     .from('recipe_categories')
                     .select('id, name, color')
                     .order('display_order');
@@ -333,7 +331,7 @@
                 recipeCount.classList.add('hidden');
                 
                 // Busca receitas com categorias e ingredientes
-                const { data, error } = await supabase
+                const { data, error } = await (await getSupabaseClient())
                     .from('recipes')
                     .select(`
                         id,
