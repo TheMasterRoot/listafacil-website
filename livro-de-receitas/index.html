@@ -427,7 +427,7 @@
                             ` : ''}
                             <div class="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
                                 <button 
-                                    onclick="openRecipeModal('${String(recipe.id)}')"
+                                    onclick="openRecipeModal('${titleToSlug(recipe.title)}')"
                                     class="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 rounded-lg flex items-center transition shadow-md hover:shadow-lg"
                                 >
                                     Ver agora
@@ -543,6 +543,24 @@
             return div.innerHTML;
         }
         
+        // Converte título em slug (URL-friendly)
+        function titleToSlug(title) {
+            if (!title) return '';
+            return title
+                .toLowerCase()
+                .normalize('NFD') // Remove acentos
+                .replace(/[\u0300-\u036f]/g, '') // Remove diacríticos
+                .replace(/[^\w\s-]/g, '') // Remove caracteres especiais
+                .trim()
+                .replace(/\s+/g, '-') // Substitui espaços por hífens
+                .replace(/-+/g, '-'); // Remove hífens duplicados
+        }
+        
+        // Busca receita por slug
+        function findRecipeBySlug(slug) {
+            return allRecipes.find(r => titleToSlug(r.title) === slug);
+        }
+        
         // Formata quantidade com até 3 casas decimais
         function formatQuantity(quantity) {
             if (!quantity || quantity === 0) return '';
@@ -572,13 +590,19 @@
             }
         });
         // Funções do Modal - tornadas globais para acesso via onclick
-        window.openRecipeModal = function(recipeId) {
-            console.log('Abrindo modal para receita:', recipeId);
-            // Converte para string para comparação consistente
-            const id = String(recipeId);
-            const recipe = allRecipes.find(r => String(r.id) === id);
+        window.openRecipeModal = function(recipeIdOrSlug) {
+            console.log('Abrindo modal para receita:', recipeIdOrSlug);
+            
+            // Tenta encontrar por ID primeiro (para compatibilidade)
+            let recipe = allRecipes.find(r => String(r.id) === String(recipeIdOrSlug));
+            
+            // Se não encontrou por ID, tenta por slug
             if (!recipe) {
-                console.error('Receita não encontrada:', recipeId, 'Total de receitas:', allRecipes.length);
+                recipe = findRecipeBySlug(recipeIdOrSlug);
+            }
+            
+            if (!recipe) {
+                console.error('Receita não encontrada:', recipeIdOrSlug, 'Total de receitas:', allRecipes.length);
                 alert('Receita não encontrada!');
                 return;
             }
@@ -673,9 +697,10 @@
             modal.classList.remove('hidden');
             document.body.classList.add('modal-open');
             
-            // Atualiza URL com hash para permitir compartilhamento
-            const newUrl = `${window.location.pathname}#receita-${recipe.id}`;
-            window.history.pushState({ recipeId: recipe.id }, '', newUrl);
+            // Atualiza URL com hash usando slug do título (melhor para SEO e compartilhamento)
+            const recipeSlug = titleToSlug(recipe.title);
+            const newUrl = `${window.location.pathname}#${recipeSlug}`;
+            window.history.pushState({ recipeId: recipe.id, recipeSlug: recipeSlug }, '', newUrl);
         }
         
         window.closeRecipeModal = function() {
@@ -694,18 +719,18 @@
         // Verifica se há hash na URL ao carregar a página
         window.addEventListener('load', function() {
             const hash = window.location.hash;
-            if (hash && hash.startsWith('#receita-')) {
-                const recipeId = hash.replace('#receita-', '');
+            if (hash && hash.length > 1) {
+                const slug = hash.substring(1); // Remove o #
                 // Aguarda as receitas carregarem antes de abrir o modal
                 setTimeout(() => {
                     if (allRecipes.length > 0) {
-                        openRecipeModal(recipeId);
+                        openRecipeModal(slug);
                     } else {
                         // Se ainda não carregou, tenta novamente após carregar
                         const checkInterval = setInterval(() => {
                             if (allRecipes.length > 0) {
                                 clearInterval(checkInterval);
-                                openRecipeModal(recipeId);
+                                openRecipeModal(slug);
                             }
                         }, 500);
                         // Timeout após 10 segundos
@@ -718,9 +743,9 @@
         // Escuta mudanças no hash (botão voltar/avançar do navegador)
         window.addEventListener('hashchange', function() {
             const hash = window.location.hash;
-            if (hash && hash.startsWith('#receita-')) {
-                const recipeId = hash.replace('#receita-', '');
-                openRecipeModal(recipeId);
+            if (hash && hash.length > 1) {
+                const slug = hash.substring(1); // Remove o #
+                openRecipeModal(slug);
             } else {
                 closeRecipeModal();
             }
