@@ -23,8 +23,9 @@
     <meta property="twitter:description" content="Explore centenas de receitas deliciosas e crie suas listas de compras automaticamente.">
     <meta property="twitter:image" content="https://themasterroot.github.io/listafacil-website/logo.png">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS - Usando versão estável (CDN para desenvolvimento, considere usar build para produção) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- TODO: Para produção, instale Tailwind via npm e faça build: https://tailwindcss.com/docs/installation -->
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +37,19 @@
     
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Garante que supabase não seja redeclarado
+        if (typeof window.supabaseClient === 'undefined') {
+            // Aguarda o script do Supabase carregar
+            window.addEventListener('load', function() {
+                if (window.supabase && !window.supabaseClient) {
+                    const SUPABASE_URL = 'https://uaaukhylcyvqsevclkcx.supabase.co';
+                    const SUPABASE_ANON_KEY = 'sb_publishable_JR-ASPLGrprOg8zcubaCbw_KseCfx9-';
+                    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                }
+            });
+        }
+    </script>
     
     <style>
         body {
@@ -256,11 +270,20 @@
 
     <script>
         // Configuração Supabase
-        const SUPABASE_URL = 'https://uaaukhylcyvqsevclkcx.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_JR-ASPLGrprOg8zcubaCbw_KseCfx9-';
-        
-        // Inicializa cliente Supabase
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Usa o cliente já inicializado ou cria um novo se necessário
+        let supabase;
+        if (window.supabaseClient) {
+            supabase = window.supabaseClient;
+        } else {
+            const SUPABASE_URL = 'https://uaaukhylcyvqsevclkcx.supabase.co';
+            const SUPABASE_ANON_KEY = 'sb_publishable_JR-ASPLGrprOg8zcubaCbw_KseCfx9-';
+            if (window.supabase) {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                window.supabaseClient = supabase; // Armazena para evitar redeclaração
+            } else {
+                console.error('Supabase não carregou corretamente');
+            }
+        }
         
         // Estado
         let allRecipes = [];
