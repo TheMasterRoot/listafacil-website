@@ -282,12 +282,11 @@
                         <div
                             class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 text-center mt-8 border border-purple-100">
                             <p class="text-purple-900 font-medium mb-4">Faltou algum ingrediente?</p>
-                            <a href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil"
-                                target="_blank"
+                            <button onclick="createListFromApp()"
                                 class="block w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition shadow-lg shadow-purple-200 flex items-center justify-center gap-2 mb-3">
                                 <i class="fas fa-plus-circle"></i>
                                 Criar Lista de Compras
-                            </a>
+                            </button>
                             <button onclick="shareRecipe()"
                                 class="block w-full bg-white text-purple-600 py-3 rounded-xl font-bold hover:bg-purple-50 transition border-2 border-purple-100 flex items-center justify-center gap-2">
                                 <i class="fas fa-share-alt"></i>
@@ -368,6 +367,7 @@
         let allRecipes = [];
         let allCategories = [];
         let filteredRecipes = [];
+        let currentRecipeSlug = '';
 
         // Elementos DOM
         const loadingState = document.getElementById('loadingState');
@@ -874,6 +874,7 @@
             modalTime.textContent = prepTime;
             modalServings.textContent = `${recipe.servings} porções`;
             modalDifficulty.textContent = difficulty;
+            currentRecipeSlug = titleToSlug(recipe.title);
 
             // Ingredients
             modalIngredients.innerHTML = ingredients.map(ing => {
@@ -979,6 +980,12 @@
             } catch (err) {
                 console.error('Erro ao compartilhar:', err);
             }
+        }
+
+        // Criar lista de compras via app (deep link)
+        function createListFromApp() {
+            if (!currentRecipeSlug) return;
+            openInApp(currentRecipeSlug);
         }
 
         // Verifica se há hash na URL ao carregar a página
