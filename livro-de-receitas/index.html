@@ -614,7 +614,15 @@
                 const category = recipe.recipe_categories || {};
                 const ingredients = recipe.recipe_ingredients || [];
 
-                return {
+                // Gera keywords baseadas em título, categoria e ingredientes principais
+                const keywords = [
+                    recipe.title,
+                    category.name || "Receita",
+                    ...ingredients.slice(0, 5).map(ing => ing.name)
+                ].filter(Boolean).join(", ");
+
+                // Monta objeto de receita
+                const recipeData = {
                     "@context": "https://schema.org",
                     "@type": "Recipe",
                     "name": recipe.title,
@@ -623,12 +631,14 @@
                     "recipeCategory": category.name || "Receita",
                     "recipeCuisine": "Brasileira",
                     "prepTime": recipe.prep_time_minutes ? `PT${recipe.prep_time_minutes}M` : undefined,
+                    "cookTime": recipe.prep_time_minutes ? `PT${recipe.prep_time_minutes}M` : undefined, // Usa mesmo tempo (melhor que nada)
                     "recipeYield": recipe.servings ? `${recipe.servings} porções` : undefined,
                     "recipeIngredient": ingredients.map(ing => {
                         const formattedQty = formatQuantity(ing.quantity);
                         return `${formattedQty ? `${formattedQty} ${ing.unit} de ` : ''}${ing.name}`;
                     }),
                     "recipeInstructions": recipe.instructions,
+                    "keywords": keywords,
                     "author": {
                         "@type": "Organization",
                         "name": "Lista Fácil"
@@ -642,7 +652,16 @@
                         }
                     }
                 };
-            }).filter(recipe => recipe.prepTime || recipe.recipeYield); // Remove propriedades undefined
+
+                // Remove propriedades undefined para evitar warnings
+                Object.keys(recipeData).forEach(key => {
+                    if (recipeData[key] === undefined) {
+                        delete recipeData[key];
+                    }
+                });
+
+                return recipeData;
+            }).filter(recipe => recipe.prepTime || recipe.recipeYield); // Remove receitas sem tempo ou porções
 
             // Adiciona ao head
             const script = document.createElement('script');
