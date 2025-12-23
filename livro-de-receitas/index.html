@@ -548,14 +548,13 @@
                                     Ver agora
                                     <i class="fas fa-eye ml-2"></i>
                                 </button>
-                                <a 
-                                    href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" 
-                                    target="_blank"
+                                <button 
+                                    onclick="openInApp('${titleToSlug(recipe.title)}')"
                                     class="text-gray-600 hover:text-gray-700 font-semibold text-sm flex items-center"
                                 >
                                     Ver no app
                                     <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
+                                </button>
                             </div>
 </div>
                     </article>
@@ -693,6 +692,25 @@
             // Formata com até 3 casas decimais e remove zeros à direita
             return parseFloat(num.toFixed(3)).toString();
         }
+
+        // Função para tentar abrir no app, depois Play Store
+        window.openInApp = function(recipeSlug) {
+            const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil';
+            const deepLinkUrl = `listafacil://recipe/${recipeSlug}`;
+            
+            // Tenta abrir o app via deep link
+            window.location.href = deepLinkUrl;
+            
+            // Se o app não abrir em 1 segundo, redireciona para Play Store
+            const fallbackTimer = setTimeout(() => {
+                window.location.href = playStoreUrl;
+            }, 1000);
+            
+            // Se a página perder o foco (app abriu), cancela o fallback
+            window.addEventListener('blur', () => {
+                clearTimeout(fallbackTimer);
+            }, { once: true });
+        };
 
         // Mobile menu toggle
         function toggleMobileMenu() {
