@@ -1011,7 +1011,8 @@
         window.addEventListener('load', function () {
             const hash = window.location.hash;
             if (hash && hash.length > 1) {
-                const slug = hash.substring(1); // Remove o #
+                let slug = hash.substring(1); // Remove o #
+                slug = slug.replace(/\/$/, ''); // Remove barra final se houver (ex: #bubble-squeak/ -> bubble-squeak)
                 // Aguarda as receitas carregarem antes de abrir o modal
                 setTimeout(() => {
                     if (allRecipes.length > 0) {
@@ -1035,7 +1036,8 @@
         window.addEventListener('hashchange', function () {
             const hash = window.location.hash;
             if (hash && hash.length > 1) {
-                const slug = hash.substring(1); // Remove o #
+                let slug = hash.substring(1); // Remove o #
+                slug = slug.replace(/\/$/, ''); // Remove barra final se houver (ex: #bubble-squeak/ -> bubble-squeak)
                 openRecipeModal(slug);
             } else {
                 closeRecipeModal();
