@@ -12,6 +12,12 @@
 
     <!-- Receitas individuais -->
     <url>
+        <loc>https://melhordosgames.com.br/livro-de-receitas/#bubble-squeak</loc>
+        <lastmod>2025-12-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://melhordosgames.com.br/livro-de-receitas/#mousse-de-maracuja</loc>
         <lastmod>2025-12-23</lastmod>
         <changefreq>weekly</changefreq>
