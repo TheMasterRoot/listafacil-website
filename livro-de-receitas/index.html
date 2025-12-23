@@ -34,7 +34,7 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="style.css">
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -140,25 +140,37 @@
         </div>
     </section>
 
-    <!-- Filters Section -->
-    <section class="px-6 mb-8">
+    <!-- Filters Section - Modernizada -->
+    <section class="px-6 mb-12" id="recipesSection">
         <div class="container mx-auto">
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/20">
+                <div class="flex flex-col lg:flex-row gap-6 items-center">
                     <div class="flex-1 w-full">
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            placeholder="🔍 Buscar receitas..." 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
-                        >
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Buscar receitas por nome, ingredientes ou categoria..." 
+                                class="form-input w-full pl-12 pr-4 py-4 text-lg"
+                            >
+                            <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                <i class="fas fa-search text-gray-400 text-lg"></i>
+                            </div>
+                        </div>
                     </div>
-                    <select 
-                        id="categoryFilter" 
-                        class="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
-                    >
-                        <option value="">Todas as categorias</option>
-                    </select>
+                    <div class="flex gap-4">
+                        <select 
+                            id="categoryFilter" 
+                            class="form-input px-6 py-4 text-lg min-w-[200px]">
+                                <option value="">Todas as categorias</option>
+                            </select>
+                            <button 
+                                onclick="resetFilters()"
+                                class="bg-gray-100 text-gray-600 px-6 py-4 rounded-2xl font-semibold hover:bg-gray-200 transition-colors">
+                                <i class="fas fa-rotate-right"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -484,6 +496,15 @@
                 countText.textContent = `Mostrando ${showing} de ${total} receita${total !== 1 ? 's' : ''}`;
             }
         }
+
+        // Reseta filtros (busca e categoria)
+        function resetFilters() {
+            searchInput.value = '';
+            categoryFilter.value = '';
+            filteredRecipes = [...allRecipes];
+            renderRecipes();
+            updateCount();
+        }
         
         // Adiciona structured data para SEO
         function addRecipeStructuredData(recipes) {
@@ -764,7 +785,7 @@
             await loadRecipes();
         })();
 </script>
-<script src="https://huggingface.co/deepsite/deepsite-badge.js"></script>
+
 </body>
 </html>
 
