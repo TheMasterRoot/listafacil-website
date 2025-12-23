@@ -34,7 +34,7 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="style.css">
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -140,25 +140,37 @@
         </div>
     </section>
 
-    <!-- Filters Section -->
-    <section class="px-6 mb-8">
+    <!-- Filters Section - Modernizada -->
+    <section class="px-6 mb-12" id="recipesSection">
         <div class="container mx-auto">
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/20">
+                <div class="flex flex-col lg:flex-row gap-6 items-center">
                     <div class="flex-1 w-full">
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            placeholder="🔍 Buscar receitas..." 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
-                        >
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Buscar receitas por nome, ingredientes ou categoria..." 
+                                class="form-input w-full pl-12 pr-4 py-4 text-lg"
+                            >
+                            <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                <i class="fas fa-search text-gray-400 text-lg"></i>
+                            </div>
+                        </div>
                     </div>
-                    <select 
-                        id="categoryFilter" 
-                        class="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
-                    >
-                        <option value="">Todas as categorias</option>
-                    </select>
+                    <div class="flex gap-4">
+                        <select 
+                            id="categoryFilter" 
+                            class="form-input px-6 py-4 text-lg min-w-[200px]">
+                                <option value="">Todas as categorias</option>
+                            </select>
+                            <button 
+                                onclick="resetFilters()"
+                                class="bg-gray-100 text-gray-600 px-6 py-4 rounded-2xl font-semibold hover:bg-gray-200 transition-colors">
+                                <i class="fas fa-rotate-right"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -191,10 +203,27 @@
             </div>
         </div>
     </section>
+    <!-- Recipe Modal -->
+    <div id="recipeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div class="flex justify-between items-center p-6 border-b border-gray-200">
+          <h3 id="modalTitle" class="text-2xl font-bold text-gray-900"></h3>
+          <button 
+            onclick="closeRecipeModal()"
+            class="text-gray-400 hover:text-gray-600 text-xl"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="overflow-y-auto max-h-[calc(90vh-80px)]">
+          <div id="modalContent" class="p-6"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- CTA Section -->
     <section class="py-20 px-6 hero-gradient">
-        <div class="container mx-auto text-center">
+<div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold text-white mb-4">Crie suas listas de compras automaticamente</h2>
             <p class="text-xl text-white/90 mb-8">
                 Use o Lista Fácil para transformar receitas em listas de compras organizadas
@@ -208,53 +237,10 @@
             </a>
         </div>
     </section>
-
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 px-6">
-        <div class="container mx-auto">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-3 mb-4">
-                        <img src="../logo.png" alt="Lista Fácil" class="h-10 w-10">
-                        <span class="text-2xl font-bold">Lista Fácil</span>
-                    </div>
-                    <p class="text-gray-400">
-                        Organize suas compras com inteligência e praticidade.
-                    </p>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Links Rápidos</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="../#features" class="hover:text-white transition">Recursos</a></li>
-                        <li><a href="../#how-it-works" class="hover:text-white transition">Como Funciona</a></li>
-                        <li><a href="../#download" class="hover:text-white transition">Download</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="../termos.html" class="hover:text-white transition">Termos de Uso</a></li>
-                        <li><a href="../privacidade.html" class="hover:text-white transition">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold mb-4">Contato</h4>
-                    <p class="text-gray-400 mb-2">
-                        <i class="fas fa-envelope mr-2"></i>
-                        jasarplay@gmail.com
-                    </p>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 Lista Fácil. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
+    <custom-footer></custom-footer>
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
     <script>
         // Função helper para obter cliente Supabase de forma segura
         // Evita redeclaração usando window.supabaseClient como cache
@@ -282,8 +268,7 @@
                 }, 100);
             });
         }
-        
-        // Estado
+// Estado
         let allRecipes = [];
         let allCategories = [];
         let filteredRecipes = [];
@@ -452,18 +437,24 @@
                                     </ul>
                                 </div>
                             ` : ''}
-                            
-                            <div class="mt-4 pt-4 border-t border-gray-200">
+                            <div class="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
+                                <button 
+                                    onclick="openRecipeModal('${titleToSlug(recipe.title)}')"
+                                    class="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 rounded-lg flex items-center transition shadow-md hover:shadow-lg"
+                                >
+                                    Ver agora
+                                    <i class="fas fa-eye ml-2"></i>
+                                </button>
                                 <a 
                                     href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" 
                                     target="_blank"
-                                    class="text-purple-600 hover:text-purple-700 font-semibold text-sm flex items-center"
+                                    class="text-gray-600 hover:text-gray-700 font-semibold text-sm flex items-center"
                                 >
                                     Ver no app
                                     <i class="fas fa-arrow-right ml-2"></i>
                                 </a>
                             </div>
-                        </div>
+</div>
                     </article>
                 `;
             }).join('');
@@ -504,6 +495,15 @@
             } else {
                 countText.textContent = `Mostrando ${showing} de ${total} receita${total !== 1 ? 's' : ''}`;
             }
+        }
+
+        // Reseta filtros (busca e categoria)
+        function resetFilters() {
+            searchInput.value = '';
+            categoryFilter.value = '';
+            filteredRecipes = [...allRecipes];
+            renderRecipes();
+            updateCount();
         }
         
         // Adiciona structured data para SEO
@@ -564,6 +564,24 @@
             return div.innerHTML;
         }
         
+        // Converte título em slug (URL-friendly)
+        function titleToSlug(title) {
+            if (!title) return '';
+            return title
+                .toLowerCase()
+                .normalize('NFD') // Remove acentos
+                .replace(/[\u0300-\u036f]/g, '') // Remove diacríticos
+                .replace(/[^\w\s-]/g, '') // Remove caracteres especiais
+                .trim()
+                .replace(/\s+/g, '-') // Substitui espaços por hífens
+                .replace(/-+/g, '-'); // Remove hífens duplicados
+        }
+        
+        // Busca receita por slug
+        function findRecipeBySlug(slug) {
+            return allRecipes.find(r => titleToSlug(r.title) === slug);
+        }
+        
         // Formata quantidade com até 3 casas decimais
         function formatQuantity(quantity) {
             if (!quantity || quantity === 0) return '';
@@ -592,13 +610,182 @@
                 nav.classList.remove('shadow-lg');
             }
         });
+        // Funções do Modal - tornadas globais para acesso via onclick
+        window.openRecipeModal = function(recipeIdOrSlug) {
+            console.log('Abrindo modal para receita:', recipeIdOrSlug);
+            
+            // Tenta encontrar por ID primeiro (para compatibilidade)
+            let recipe = allRecipes.find(r => String(r.id) === String(recipeIdOrSlug));
+            
+            // Se não encontrou por ID, tenta por slug
+            if (!recipe) {
+                recipe = findRecipeBySlug(recipeIdOrSlug);
+            }
+            
+            if (!recipe) {
+                console.error('Receita não encontrada:', recipeIdOrSlug, 'Total de receitas:', allRecipes.length);
+                alert('Receita não encontrada!');
+                return;
+            }
+            
+            const modal = document.getElementById('recipeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            if (!modal || !modalTitle || !modalContent) {
+                console.error('Elementos do modal não encontrados!');
+                return;
+            }
+            
+            const category = recipe.recipe_categories || {};
+            const ingredients = recipe.recipe_ingredients || [];
+            const prepTime = recipe.prep_time_minutes ? `${recipe.prep_time_minutes} min` : 'N/A';
+            const difficulty = recipe.difficulty || 'médio';
+            
+            // Preenche título
+            modalTitle.textContent = recipe.title;
+            
+            // Preenche conteúdo
+            modalContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        ${recipe.image_url ? `
+                            <img 
+                                src="${recipe.image_url}" 
+                                alt="${recipe.title}" 
+                                class="w-full h-64 md:h-80 object-cover rounded-xl shadow-lg"
+                            >
+                        ` : `
+                            <div class="w-full h-64 md:h-80 bg-gradient-to-br from-purple-400 to-blue-400 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-utensils text-white text-6xl"></i>
+                        </div>
+                        `}
+                        
+                        <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <i class="fas fa-users text-purple-600 mb-2"></i>
+                                <p class="text-sm font-semibold">${recipe.servings} porções</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <i class="fas fa-clock text-purple-600 mb-2"></i>
+                                <p class="text-sm font-semibold">${prepTime}</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <i class="fas fa-signal text-purple-600 mb-2"></i>
+                                <p class="text-sm font-semibold capitalize">${difficulty}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-3">Ingredientes</h4>
+                            <div class="space-y-2">
+                                ${ingredients.map(ing => {
+                                    const formattedQty = formatQuantity(ing.quantity);
+                                    return `
+                                        <div class="modal-ingredient flex justify-between items-center py-2">
+                                            <span class="text-gray-700">${escapeHtml(ing.name)}</span>
+                                            <span class="text-purple-600 font-semibold">${formattedQty ? `${formattedQty} ${ing.unit}` : ''}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-3">Modo de Preparo</h4>
+                            <div class="prose prose-gray max-w-none">
+                                <p class="text-gray-700 whitespace-pre-line">${escapeHtml(recipe.instructions)}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                    <p class="text-gray-600 mb-4">Quer transformar essa receita em lista de compras?</p>
+                    <a 
+                        href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" 
+                        target="_blank"
+                        class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition inline-flex items-center"
+                    >
+                        <i class="fab fa-google-play mr-2"></i>
+                        Baixar Lista Fácil
+                    </a>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+            
+            // Atualiza URL com hash usando slug do título (melhor para SEO e compartilhamento)
+            const recipeSlug = titleToSlug(recipe.title);
+            const newUrl = `${window.location.pathname}#${recipeSlug}`;
+            window.history.pushState({ recipeId: recipe.id, recipeSlug: recipeSlug }, '', newUrl);
+        }
+        
+        window.closeRecipeModal = function() {
+            const modal = document.getElementById('recipeModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+                
+                // Remove hash da URL ao fechar
+                if (window.location.hash) {
+                    window.history.pushState('', document.title, window.location.pathname);
+                }
+            }
+        }
+        
+        // Verifica se há hash na URL ao carregar a página
+        window.addEventListener('load', function() {
+            const hash = window.location.hash;
+            if (hash && hash.length > 1) {
+                const slug = hash.substring(1); // Remove o #
+                // Aguarda as receitas carregarem antes de abrir o modal
+                setTimeout(() => {
+                    if (allRecipes.length > 0) {
+                        openRecipeModal(slug);
+                    } else {
+                        // Se ainda não carregou, tenta novamente após carregar
+                        const checkInterval = setInterval(() => {
+                            if (allRecipes.length > 0) {
+                                clearInterval(checkInterval);
+                                openRecipeModal(slug);
+                            }
+                        }, 500);
+                        // Timeout após 10 segundos
+                        setTimeout(() => clearInterval(checkInterval), 10000);
+                    }
+                }, 1000);
+            }
+        });
+        
+        // Escuta mudanças no hash (botão voltar/avançar do navegador)
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash;
+            if (hash && hash.length > 1) {
+                const slug = hash.substring(1); // Remove o #
+                openRecipeModal(slug);
+            } else {
+                closeRecipeModal();
+            }
+        });
+        
+        // Fecha modal ao clicar fora
+        document.getElementById('recipeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeRecipeModal();
+            }
+        });
         
         // Inicializa
         (async () => {
             await loadCategories();
             await loadRecipes();
         })();
-    </script>
+</script>
+
 </body>
 </html>
 

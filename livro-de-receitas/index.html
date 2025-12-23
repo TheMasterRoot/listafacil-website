@@ -1,60 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livro de Receitas - Lista Fácil | Receitas em Tempo Real</title>
-    <meta name="description" content="Explore centenas de receitas deliciosas no Livro de Receitas do Lista Fácil. Veja receitas em tempo real e crie suas listas de compras automaticamente.">
+    <meta name="description"
+        content="Explore centenas de receitas deliciosas no Livro de Receitas do Lista Fácil. Veja receitas em tempo real e crie suas listas de compras automaticamente.">
     <meta name="keywords" content="receitas, livro de receitas, receitas brasileiras, lista de compras, Lista Fácil">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://themasterroot.github.io/listafacil-website/livro-de-receitas/">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://themasterroot.github.io/listafacil-website/livro-de-receitas/">
     <meta property="og:title" content="Livro de Receitas - Lista Fácil">
-    <meta property="og:description" content="Explore centenas de receitas deliciosas e crie suas listas de compras automaticamente.">
+    <meta property="og:description"
+        content="Explore centenas de receitas deliciosas e crie suas listas de compras automaticamente.">
     <meta property="og:image" content="https://themasterroot.github.io/listafacil-website/logo.png">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://themasterroot.github.io/listafacil-website/livro-de-receitas/">
     <meta property="twitter:title" content="Livro de Receitas - Lista Fácil">
-    <meta property="twitter:description" content="Explore centenas de receitas deliciosas e crie suas listas de compras automaticamente.">
+    <meta property="twitter:description"
+        content="Explore centenas de receitas deliciosas e crie suas listas de compras automaticamente.">
     <meta property="twitter:image" content="https://themasterroot.github.io/listafacil-website/logo.png">
-    
+
     <!-- Tailwind CSS - Usando versão estável (CDN para desenvolvimento, considere usar build para produção) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- TODO: Para produção, instale Tailwind via npm e faça build: https://tailwindcss.com/docs/installation -->
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
+
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .hero-gradient {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+
         .recipe-card:hover {
             transform: translateY(-5px);
             transition: all 0.3s ease;
         }
+
         .loading-spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #667eea;
@@ -63,12 +72,18 @@
             height: 50px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
-    
+
     <!-- Structured Data (JSON-LD) para SEO -->
     <script type="application/ld+json">
     {
@@ -88,11 +103,12 @@
     }
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5641343094547047"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 </head>
+
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
+    <nav class="fixed w-full z-50 transition-all duration-300 floating-nav" id="mainNav">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
@@ -116,59 +132,53 @@
         <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
             <div class="px-6 py-4 space-y-3">
                 <a href="../#features" class="block text-gray-700 hover:text-purple-600 transition">Recursos</a>
-                <a href="../#how-it-works" class="block text-gray-700 hover:text-purple-600 transition">Como Funciona</a>
+                <a href="../#how-it-works" class="block text-gray-700 hover:text-purple-600 transition">Como
+                    Funciona</a>
                 <a href="../#testimonials" class="block text-gray-700 hover:text-purple-600 transition">Depoimentos</a>
                 <a href="../#download" class="block text-gray-700 hover:text-purple-600 transition">Download</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-12 px-6 relative overflow-hidden">
-        <div class="container mx-auto relative z-10">
-            <div class="text-center mb-12">
-                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                    <span class="gradient-text">Livro de Receitas</span>
-                </h1>
-                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                    Veja mais receitas em tempo real e crie suas listas de compras usando o <strong>Lista Fácil</strong>
-                </p>
-                <a href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" target="_blank" class="hero-gradient text-white px-8 py-4 rounded-full font-semibold text-lg hover:opacity-90 transition inline-flex items-center">
-                    <i class="fab fa-google-play mr-2"></i> Baixar App na Play Store
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- Hero Section with Search & Chips -->
+    <section class="pt-32 pb-16 px-6 relative overflow-hidden hero-gradient">
+        <!-- Abstract Background Pattern -->
+        <div class="absolute inset-0 opacity-10 pattern-grid pointer-events-none"></div>
 
-    <!-- Filters Section - Modernizada -->
-    <section class="px-6 mb-12" id="recipesSection">
-        <div class="container mx-auto">
-            <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-8 border border-white/20">
-                <div class="flex flex-col lg:flex-row gap-6 items-center">
-                    <div class="flex-1 w-full">
-                        <div class="relative">
-                            <input 
-                                type="text" 
-                                id="searchInput" 
-                                placeholder="Buscar receitas por nome, ingredientes ou categoria..." 
-                                class="form-input w-full pl-12 pr-4 py-4 text-lg"
-                            >
-                            <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
-                                <i class="fas fa-search text-gray-400 text-lg"></i>
-                            </div>
+        <div class="container mx-auto relative z-10">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-sm">
+                    Livro de Receitas
+                </h1>
+                <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto font-medium">
+                    Descubra, cozinhe e crie listas de compras automáticas com o <strong>Lista Fácil</strong>
+                </p>
+
+                <!-- Search & Filters Container -->
+                <div
+                    class="max-w-12xl mx-auto bg-white/10 backdrop-blur-md p-4 md:p-6 rounded-3xl border border-white/20 shadow-2xl">
+                    <!-- Search Bar -->
+                    <div class="relative mb-6">
+                        <input type="text" id="searchInput" placeholder="O que vamos cozinhar hoje?"
+                            class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/95 border-0 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-purple-500 shadow-inner text-lg transition-all">
+                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-500">
+                            <i class="fas fa-search text-xl"></i>
                         </div>
                     </div>
-                    <div class="flex gap-4">
-                        <select 
-                            id="categoryFilter" 
-                            class="form-input px-6 py-4 text-lg min-w-[200px]">
-                                <option value="">Todas as categorias</option>
-                            </select>
-                            <button 
-                                onclick="resetFilters()"
-                                class="bg-gray-100 text-gray-600 px-6 py-4 rounded-2xl font-semibold hover:bg-gray-200 transition-colors">
-                                <i class="fas fa-rotate-right"></i>
-                            </button>
+
+                    <!-- Category Chips -->
+                    <div class="relative">
+                        <div id="categoryChips" class="flex gap-3 flex-wrap justify-center pb-2">
+                            <!-- Chips will be inserted here -->
+                            <div class="animate-pulse flex gap-3">
+                                <div class="h-10 w-24 bg-white/20 rounded-full"></div>
+                                <div class="h-10 w-24 bg-white/20 rounded-full"></div>
+                                <div class="h-10 w-24 bg-white/20 rounded-full"></div>
+                            </div>
+                        </div>
+                        <!-- Fade effect on sides -->
+                        <div
+                            class="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-black/10 to-transparent pointer-events-none rounded-r-xl">
                         </div>
                     </div>
                 </div>
@@ -203,32 +213,118 @@
             </div>
         </div>
     </section>
-    <!-- Recipe Modal -->
-    <div id="recipeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-        <div class="flex justify-between items-center p-6 border-b border-gray-200">
-          <h3 id="modalTitle" class="text-2xl font-bold text-gray-900"></h3>
-          <button 
-            onclick="closeRecipeModal()"
-            class="text-gray-400 hover:text-gray-600 text-xl"
-          >
-            <i class="fas fa-times"></i>
-          </button>
+
+    <!-- Recipe Modal (Redesigned) -->
+    <div id="recipeModal"
+        class="hidden fixed inset-0 z-50 flex items-end md:items-center justify-center sm:p-4 transition-all duration-300">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeRecipeModal()">
         </div>
-        <div class="overflow-y-auto max-h-[calc(90vh-80px)]">
-          <div id="modalContent" class="p-6"></div>
+
+        <!-- Modal Content -->
+        <div class="relative bg-white w-full md:max-w-5xl h-[92vh] md:h-auto md:max-h-[90vh] rounded-t-[2rem] md:rounded-3xl shadow-2xl overflow-hidden flex flex-col transform transition-all duration-300 translate-y-full md:translate-y-0 opacity-0 scale-95"
+            id="modalContainer">
+
+            <!-- Header Image & Title (Sticky) -->
+            <div class="relative h-64 md:h-80 shrink-0 group">
+                <img id="modalImage" src="" alt=""
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+
+                <button onclick="closeRecipeModal()"
+                    class="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-md transition-all hover:rotate-90 z-20">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+
+                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white z-10">
+                    <span id="modalCategory"
+                        class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md mb-3 border border-white/10"></span>
+                    <h3 id="modalTitle" class="text-3xl md:text-4xl font-bold leading-tight mb-4 drop-shadow-lg"></h3>
+
+                    <!-- Meta Info Row -->
+                    <div class="flex flex-wrap gap-4 md:gap-8 text-sm md:text-base font-medium text-white/90">
+                        <div class="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-clock text-orange-400"></i>
+                            <span id="modalTime"></span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-users text-blue-400"></i>
+                            <span id="modalServings"></span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full backdrop-blur-sm">
+                            <i class="fas fa-signal text-green-400"></i>
+                            <span id="modalDifficulty" class="capitalize"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto bg-white custom-scrollbar" id="modalScrollContent">
+                <div class="p-6 md:p-10 grid md:grid-cols-[1fr,1.5fr] gap-8 md:gap-12">
+
+                    <!-- Ingredients Column -->
+                    <div class="space-y-6">
+                        <div class="sticky top-0 bg-white/95 backdrop-blur-sm z-10 py-3 border-b border-gray-100">
+                            <h4 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                                <span
+                                    class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
+                                    <i class="fas fa-shopping-basket text-sm"></i>
+                                </span>
+                                Ingredientes
+                            </h4>
+                        </div>
+                        <ul id="modalIngredients" class="space-y-3">
+                            <!-- Ingredients injected here -->
+                        </ul>
+
+                        <!-- CTA Box -->
+                        <div
+                            class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 text-center mt-8 border border-purple-100">
+                            <p class="text-purple-900 font-medium mb-4">Faltou algum ingrediente?</p>
+                            <a href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil"
+                                target="_blank"
+                                class="block w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition shadow-lg shadow-purple-200 flex items-center justify-center gap-2 mb-3">
+                                <i class="fas fa-plus-circle"></i>
+                                Criar Lista de Compras
+                            </a>
+                            <button onclick="shareRecipe()"
+                                class="block w-full bg-white text-purple-600 py-3 rounded-xl font-bold hover:bg-purple-50 transition border-2 border-purple-100 flex items-center justify-center gap-2">
+                                <i class="fas fa-share-alt"></i>
+                                Compartilhar Receita
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Instructions Column -->
+                    <div class="space-y-6">
+                        <div class="sticky top-0 bg-white/95 backdrop-blur-sm z-10 py-3 border-b border-gray-100">
+                            <h4 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                                <span
+                                    class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600">
+                                    <i class="fas fa-fire text-sm"></i>
+                                </span>
+                                Modo de Preparo
+                            </h4>
+                        </div>
+                        <div id="modalInstructions" class="space-y-8">
+                            <!-- Steps injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- CTA Section -->
     <section class="py-20 px-6 hero-gradient">
-<div class="container mx-auto text-center">
+        <div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold text-white mb-4">Crie suas listas de compras automaticamente</h2>
             <p class="text-xl text-white/90 mb-8">
                 Use o Lista Fácil para transformar receitas em listas de compras organizadas
             </p>
-            <a href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" target="_blank" class="bg-black text-white px-8 py-4 rounded-xl flex items-center justify-center hover:bg-gray-900 transition inline-flex">
+            <a href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" target="_blank"
+                class="bg-black text-white px-8 py-4 rounded-xl flex items-center justify-center hover:bg-gray-900 transition inline-flex">
                 <i class="fab fa-google-play text-2xl mr-3"></i>
                 <div class="text-left">
                     <p class="text-xs">Disponível no</p>
@@ -268,11 +364,11 @@
                 }, 100);
             });
         }
-// Estado
+        // Estado
         let allRecipes = [];
         let allCategories = [];
         let filteredRecipes = [];
-        
+
         // Elementos DOM
         const loadingState = document.getElementById('loadingState');
         const emptyState = document.getElementById('emptyState');
@@ -280,8 +376,9 @@
         const recipeCount = document.getElementById('recipeCount');
         const countText = document.getElementById('countText');
         const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        
+        const categoryChips = document.getElementById('categoryChips');
+        let selectedCategoryId = '';
+
         // Carrega categorias
         async function loadCategories() {
             try {
@@ -289,24 +386,30 @@
                     .from('recipe_categories')
                     .select('id, name, color')
                     .order('display_order');
-                
+
                 if (error) throw error;
-                
+
                 allCategories = data || [];
-                
-                // Preenche dropdown
-                categoryFilter.innerHTML = '<option value="">Todas as categorias</option>';
+
+                // Preenche chips
+                categoryChips.innerHTML = `
+                    <button onclick="selectCategory('')" class="category-chip active whitespace-nowrap px-6 py-2 rounded-full bg-white/90 text-purple-700 font-semibold shadow-sm hover:bg-white transition-all border-2 border-transparent">
+                        Todas
+                    </button>
+                `;
+
                 allCategories.forEach(cat => {
-                    const option = document.createElement('option');
-                    option.value = cat.id;
-                    option.textContent = cat.name;
-                    categoryFilter.appendChild(option);
+                    const btn = document.createElement('button');
+                    btn.className = 'category-chip whitespace-nowrap px-6 py-2 rounded-full bg-white/20 text-white font-medium hover:bg-white/30 transition-all border-2 border-transparent';
+                    btn.onclick = () => selectCategory(cat.id);
+                    btn.textContent = cat.name;
+                    categoryChips.appendChild(btn);
                 });
             } catch (error) {
                 console.error('Erro ao carregar categorias:', error);
             }
         }
-        
+
         // Carrega receitas
         async function loadRecipes() {
             try {
@@ -314,7 +417,7 @@
                 emptyState.classList.add('hidden');
                 recipesGrid.classList.add('hidden');
                 recipeCount.classList.add('hidden');
-                
+
                 // Busca receitas com categorias e ingredientes
                 const { data, error } = await (await getSupabaseClient())
                     .from('recipes')
@@ -341,17 +444,17 @@
                     `)
                     .eq('is_active', true)
                     .order('updated_at', { ascending: false });
-                
+
                 if (error) throw error;
-                
+
                 allRecipes = data || [];
                 filteredRecipes = [...allRecipes];
-                
+
                 renderRecipes();
                 updateCount();
-                
+
                 loadingState.classList.add('hidden');
-                
+
                 // Adiciona structured data para cada receita (SEO)
                 addRecipeStructuredData(allRecipes);
             } catch (error) {
@@ -365,7 +468,7 @@
                 `;
             }
         }
-        
+
         // Renderiza receitas
         function renderRecipes() {
             if (filteredRecipes.length === 0) {
@@ -374,20 +477,20 @@
                 recipeCount.classList.add('hidden');
                 return;
             }
-            
+
             emptyState.classList.add('hidden');
             recipesGrid.classList.remove('hidden');
             recipeCount.classList.remove('hidden');
-            
+
             recipesGrid.innerHTML = filteredRecipes.map(recipe => {
                 const category = recipe.recipe_categories || {};
                 const categoryColor = category.color || '#667eea';
                 const ingredients = recipe.recipe_ingredients || [];
                 const prepTime = recipe.prep_time_minutes ? `${recipe.prep_time_minutes} min` : 'N/A';
                 const difficulty = recipe.difficulty || 'médio';
-                
+
                 return `
-                    <article class="recipe-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all">
+                    <article class="recipe-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all flex flex-col h-full">
                         ${recipe.image_url ? `
                             <div class="relative h-48 overflow-hidden">
                                 <img 
@@ -407,7 +510,7 @@
                                 <i class="fas fa-utensils text-white text-6xl"></i>
                             </div>
                         `}
-                        <div class="p-6">
+                        <div class="p-6 flex flex-col flex-1">
                             <h3 class="text-2xl font-bold text-gray-900 mb-3">${escapeHtml(recipe.title)}</h3>
                             
                             <div class="flex flex-wrap gap-3 mb-4 text-sm text-gray-600">
@@ -430,14 +533,14 @@
                                     <p class="text-sm font-semibold text-gray-700 mb-2">Ingredientes principais:</p>
                                     <ul class="text-sm text-gray-600 space-y-1">
                                         ${ingredients.slice(0, 3).map(ing => {
-                                            const formattedQty = formatQuantity(ing.quantity);
-                                            return `<li>• ${escapeHtml(ing.name)} ${formattedQty ? `(${formattedQty} ${ing.unit})` : ''}</li>`;
-                                        }).join('')}
+                    const formattedQty = formatQuantity(ing.quantity);
+                    return `<li>• ${escapeHtml(ing.name)} ${formattedQty ? `(${formattedQty} ${ing.unit})` : ''}</li>`;
+                }).join('')}
                                         ${ingredients.length > 3 ? `<li class="text-gray-400">+ ${ingredients.length - 3} mais...</li>` : ''}
                                     </ul>
                                 </div>
                             ` : ''}
-                            <div class="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
+                            <div class="mt-auto pt-4 border-t border-gray-200 flex justify-between items-center">
                                 <button 
                                     onclick="openRecipeModal('${titleToSlug(recipe.title)}')"
                                     class="bg-orange-500 hover:bg-orange-600 text-white font-semibold text-sm px-4 py-2 rounded-lg flex items-center transition shadow-md hover:shadow-lg"
@@ -459,36 +562,36 @@
                 `;
             }).join('');
         }
-        
+
         // Filtra receitas
         function filterRecipes() {
             const searchTerm = searchInput.value.toLowerCase().trim();
-            const categoryId = categoryFilter.value;
-            
+            const categoryId = selectedCategoryId;
+
             filteredRecipes = allRecipes.filter(recipe => {
                 // Filtro de busca
-                const matchesSearch = !searchTerm || 
+                const matchesSearch = !searchTerm ||
                     recipe.title.toLowerCase().includes(searchTerm) ||
                     (recipe.recipe_categories && recipe.recipe_categories.name.toLowerCase().includes(searchTerm)) ||
                     (recipe.recipe_ingredients && recipe.recipe_ingredients.some(ing => ing.name.toLowerCase().includes(searchTerm)));
-                
+
                 // Filtro de categoria
                 const matchesCategory = !categoryId || recipe.category_id === categoryId;
-                
+
                 return matchesSearch && matchesCategory;
             });
-            
+
             renderRecipes();
             updateCount();
         }
-        
+
         // Atualiza contador
         function updateCount() {
             if (filteredRecipes.length === 0) return;
-            
+
             const total = allRecipes.length;
             const showing = filteredRecipes.length;
-            
+
             if (showing === total) {
                 const disponibilidade = total !== 1 ? 'disponíveis' : 'disponível';
                 countText.textContent = `${total} receita${total !== 1 ? 's' : ''} ${disponibilidade}`;
@@ -500,18 +603,18 @@
         // Reseta filtros (busca e categoria)
         function resetFilters() {
             searchInput.value = '';
-            categoryFilter.value = '';
+            selectCategory('');
             filteredRecipes = [...allRecipes];
             renderRecipes();
             updateCount();
         }
-        
+
         // Adiciona structured data para SEO
         function addRecipeStructuredData(recipes) {
             const structuredData = recipes.map(recipe => {
                 const category = recipe.recipe_categories || {};
                 const ingredients = recipe.recipe_ingredients || [];
-                
+
                 return {
                     "@context": "https://schema.org",
                     "@type": "Recipe",
@@ -541,7 +644,7 @@
                     }
                 };
             }).filter(recipe => recipe.prepTime || recipe.recipeYield); // Remove propriedades undefined
-            
+
             // Adiciona ao head
             const script = document.createElement('script');
             script.type = 'application/ld+json';
@@ -556,14 +659,14 @@
             });
             document.head.appendChild(script);
         }
-        
+
         // Escape HTML para segurança
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
-        
+
         // Converte título em slug (URL-friendly)
         function titleToSlug(title) {
             if (!title) return '';
@@ -576,12 +679,12 @@
                 .replace(/\s+/g, '-') // Substitui espaços por hífens
                 .replace(/-+/g, '-'); // Remove hífens duplicados
         }
-        
+
         // Busca receita por slug
         function findRecipeBySlug(slug) {
             return allRecipes.find(r => titleToSlug(r.title) === slug);
         }
-        
+
         // Formata quantidade com até 3 casas decimais
         function formatQuantity(quantity) {
             if (!quantity || quantity === 0) return '';
@@ -590,155 +693,278 @@
             // Formata com até 3 casas decimais e remove zeros à direita
             return parseFloat(num.toFixed(3)).toString();
         }
-        
+
         // Mobile menu toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
             menu.classList.toggle('hidden');
         }
-        
+
+        // Event listeners
         // Event listeners
         searchInput.addEventListener('input', filterRecipes);
-        categoryFilter.addEventListener('change', filterRecipes);
-        
+
+        // Função para selecionar categoria
+        window.selectCategory = function (id) {
+            selectedCategoryId = id;
+
+            // Atualiza visual dos chips
+            const chips = document.querySelectorAll('.category-chip');
+            chips.forEach(chip => {
+                // Remove active style
+                chip.classList.remove('active', 'bg-white/90', 'text-purple-700', 'shadow-sm');
+                chip.classList.add('bg-white/20', 'text-white');
+
+                // Add active style if matches
+                // Simplificação: verifica o texto ou reconstrói a lógica. 
+                // Melhor: recriar a lógica de classes baseada no ID seria mais robusto, mas aqui vamos pelo click.
+            });
+
+            // Re-renderiza para garantir estados corretos (mais simples que gerenciar classes manualmente)
+            renderChips();
+
+            filterRecipes();
+        }
+
+        function renderChips() {
+            if (!categoryChips) return;
+
+            categoryChips.innerHTML = `
+                <button onclick="selectCategory('')" class="category-chip whitespace-nowrap px-6 py-2 rounded-full transition-all border-2 border-transparent ${selectedCategoryId === '' ? 'active bg-white text-purple-700 font-bold shadow-md' : 'bg-white/20 text-white hover:bg-white/30'}">
+                    Todas
+                </button>
+            `;
+
+            allCategories.forEach(cat => {
+                const isActive = cat.id === selectedCategoryId;
+                const btn = document.createElement('button');
+                btn.className = `category-chip whitespace-nowrap px-6 py-2 rounded-full transition-all border-2 border-transparent ${isActive ? 'active bg-white text-purple-700 font-bold shadow-md' : 'bg-white/20 text-white hover:bg-white/30'}`;
+                btn.onclick = () => selectCategory(cat.id);
+                btn.textContent = cat.name;
+                categoryChips.appendChild(btn);
+            });
+        }
+
+        // Atualiza loadCategories para usar renderChips
+        const originalLoadCategories = loadCategories;
+        loadCategories = async function () {
+            await originalLoadCategories(); // Carrega dados
+            renderChips(); // Renderiza visual
+        }
+
         // Scroll effect on navbar
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-lg');
+        const nav = document.getElementById('mainNav');
+
+        function updateNav() {
+            const isScrolled = window.scrollY > 20;
+            const navLinks = nav.querySelectorAll('.md\\:flex a'); // Desktop links
+            const logoText = nav.querySelector('.text-2xl.font-bold'); // Logo text
+            const mobileMenuBtn = nav.querySelector('button.md\\:hidden'); // Mobile menu button
+
+            if (isScrolled) {
+                nav.classList.add('scrolled');
+
+                // Links to gray
+                navLinks.forEach(link => {
+                    link.classList.remove('text-white', 'hover:text-purple-200');
+                    link.classList.add('text-gray-700', 'hover:text-purple-600');
+                });
+
+                // Logo to gradient
+                if (logoText) {
+                    logoText.classList.add('gradient-text');
+                    logoText.classList.remove('text-white');
+                }
+
+                // Mobile btn to gray
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.classList.remove('text-white');
+                    mobileMenuBtn.classList.add('text-gray-700');
+                }
             } else {
-                nav.classList.remove('shadow-lg');
+                nav.classList.remove('scrolled');
+
+                // Links to white
+                navLinks.forEach(link => {
+                    link.classList.add('text-white', 'hover:text-purple-200');
+                    link.classList.remove('text-gray-700', 'hover:text-purple-600');
+                });
+
+                // Logo to white
+                if (logoText) {
+                    logoText.classList.remove('gradient-text');
+                    logoText.classList.add('text-white');
+                }
+
+                // Mobile btn to white
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.classList.add('text-white');
+                    mobileMenuBtn.classList.remove('text-gray-700');
+                }
             }
-        });
+        }
+
+        window.addEventListener('scroll', updateNav);
+        // Call once to set initial state
+        document.addEventListener('DOMContentLoaded', updateNav);
+
         // Funções do Modal - tornadas globais para acesso via onclick
-        window.openRecipeModal = function(recipeIdOrSlug) {
+        window.openRecipeModal = function (recipeIdOrSlug) {
             console.log('Abrindo modal para receita:', recipeIdOrSlug);
-            
+
             // Tenta encontrar por ID primeiro (para compatibilidade)
             let recipe = allRecipes.find(r => String(r.id) === String(recipeIdOrSlug));
-            
+
             // Se não encontrou por ID, tenta por slug
             if (!recipe) {
                 recipe = findRecipeBySlug(recipeIdOrSlug);
             }
-            
+
             if (!recipe) {
-                console.error('Receita não encontrada:', recipeIdOrSlug, 'Total de receitas:', allRecipes.length);
-                alert('Receita não encontrada!');
+                console.error('Receita não encontrada:', recipeIdOrSlug);
                 return;
             }
-            
+
             const modal = document.getElementById('recipeModal');
+            const modalContainer = document.getElementById('modalContainer');
+
+            // Elements
+            const modalImage = document.getElementById('modalImage');
             const modalTitle = document.getElementById('modalTitle');
-            const modalContent = document.getElementById('modalContent');
-            
-            if (!modal || !modalTitle || !modalContent) {
+            const modalCategory = document.getElementById('modalCategory');
+            const modalTime = document.getElementById('modalTime');
+            const modalServings = document.getElementById('modalServings');
+            const modalDifficulty = document.getElementById('modalDifficulty');
+            const modalIngredients = document.getElementById('modalIngredients');
+            const modalInstructions = document.getElementById('modalInstructions');
+
+            if (!modal || !modalImage) {
                 console.error('Elementos do modal não encontrados!');
                 return;
             }
-            
+
             const category = recipe.recipe_categories || {};
             const ingredients = recipe.recipe_ingredients || [];
             const prepTime = recipe.prep_time_minutes ? `${recipe.prep_time_minutes} min` : 'N/A';
             const difficulty = recipe.difficulty || 'médio';
-            
-            // Preenche título
+
+            // Populate Data
+            modalImage.src = recipe.image_url || '';
             modalTitle.textContent = recipe.title;
-            
-            // Preenche conteúdo
-            modalContent.innerHTML = `
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        ${recipe.image_url ? `
-                            <img 
-                                src="${recipe.image_url}" 
-                                alt="${recipe.title}" 
-                                class="w-full h-64 md:h-80 object-cover rounded-xl shadow-lg"
-                            >
-                        ` : `
-                            <div class="w-full h-64 md:h-80 bg-gradient-to-br from-purple-400 to-blue-400 rounded-xl flex items-center justify-center">
-                            <i class="fas fa-utensils text-white text-6xl"></i>
+            modalCategory.textContent = category.name || 'Receita';
+            modalCategory.style.backgroundColor = category.color || 'rgba(255,255,255,0.2)';
+            modalTime.textContent = prepTime;
+            modalServings.textContent = `${recipe.servings} porções`;
+            modalDifficulty.textContent = difficulty;
+
+            // Ingredients
+            modalIngredients.innerHTML = ingredients.map(ing => {
+                const formattedQty = formatQuantity(ing.quantity);
+                return `
+                    <li class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 group">
+                        <div class="flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-purple-400 group-hover:scale-125 transition-transform"></span>
+                            <span class="text-gray-700 font-medium">${escapeHtml(ing.name)}</span>
                         </div>
-                        `}
-                        
-                        <div class="mt-6 grid grid-cols-3 gap-4 text-center">
-                            <div class="bg-gray-50 p-3 rounded-lg">
-                                <i class="fas fa-users text-purple-600 mb-2"></i>
-                                <p class="text-sm font-semibold">${recipe.servings} porções</p>
-                            </div>
-                            <div class="bg-gray-50 p-3 rounded-lg">
-                                <i class="fas fa-clock text-purple-600 mb-2"></i>
-                                <p class="text-sm font-semibold">${prepTime}</p>
-                            </div>
-                            <div class="bg-gray-50 p-3 rounded-lg">
-                                <i class="fas fa-signal text-purple-600 mb-2"></i>
-                                <p class="text-sm font-semibold capitalize">${difficulty}</p>
-                            </div>
-                        </div>
+                        <span class="text-purple-600 font-bold bg-purple-50 px-3 py-1 rounded-lg text-sm">${formattedQty ? `${formattedQty} ${ing.unit}` : ''}</span>
+                    </li>
+                `;
+            }).join('');
+
+            // Instructions (Split by newlines and wrap in steps)
+            const steps = recipe.instructions.split(/\n+/).filter(step => step.trim().length > 0);
+            modalInstructions.innerHTML = steps.map((step, index) => `
+                <div class="flex gap-4 group">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-lg group-hover:bg-orange-500 group-hover:text-white transition-colors shadow-sm">
+                        ${index + 1}
                     </div>
-                    
-                    <div>
-                        <div class="mb-6">
-                            <h4 class="text-lg font-bold text-gray-900 mb-3">Ingredientes</h4>
-                            <div class="space-y-2">
-                                ${ingredients.map(ing => {
-                                    const formattedQty = formatQuantity(ing.quantity);
-                                    return `
-                                        <div class="modal-ingredient flex justify-between items-center py-2">
-                                            <span class="text-gray-700">${escapeHtml(ing.name)}</span>
-                                            <span class="text-purple-600 font-semibold">${formattedQty ? `${formattedQty} ${ing.unit}` : ''}</span>
-                                        </div>
-                                    `;
-                                }).join('')}
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-900 mb-3">Modo de Preparo</h4>
-                            <div class="prose prose-gray max-w-none">
-                                <p class="text-gray-700 whitespace-pre-line">${escapeHtml(recipe.instructions)}</p>
-                            </div>
-                        </div>
+                    <div class="pt-1">
+                        <p class="text-gray-700 leading-relaxed text-lg">${escapeHtml(step)}</p>
                     </div>
                 </div>
-                
-                <div class="mt-8 pt-6 border-t border-gray-200 text-center">
-                    <p class="text-gray-600 mb-4">Quer transformar essa receita em lista de compras?</p>
-                    <a 
-                        href="https://play.google.com/store/apps/details?id=io.github.themasterroot.listafacil" 
-                        target="_blank"
-                        class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition inline-flex items-center"
-                    >
-                        <i class="fab fa-google-play mr-2"></i>
-                        Baixar Lista Fácil
-                    </a>
-                </div>
-            `;
-            
+            `).join('');
+
+            // Show Modal
             modal.classList.remove('hidden');
             document.body.classList.add('modal-open');
-            
-            // Atualiza URL com hash usando slug do título (melhor para SEO e compartilhamento)
+
+            // Animation
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContainer.classList.remove('translate-y-full', 'opacity-0', 'scale-95');
+                modalContainer.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+            }, 10);
+
+            // Update URL
             const recipeSlug = titleToSlug(recipe.title);
             const newUrl = `${window.location.pathname}#${recipeSlug}`;
             window.history.pushState({ recipeId: recipe.id, recipeSlug: recipeSlug }, '', newUrl);
         }
-        
-        window.closeRecipeModal = function() {
+
+        window.closeRecipeModal = function () {
             const modal = document.getElementById('recipeModal');
-            if (modal) {
-                modal.classList.add('hidden');
-                document.body.classList.remove('modal-open');
-                
-                // Remove hash da URL ao fechar
-                if (window.location.hash) {
-                    window.history.pushState('', document.title, window.location.pathname);
-                }
+            const modalContainer = document.getElementById('modalContainer');
+
+            if (modal && modalContainer) {
+                // Animation out
+                modalContainer.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
+                modalContainer.classList.add('translate-y-full', 'opacity-0', 'scale-95');
+
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.classList.remove('modal-open');
+
+                    // Remove hash
+                    if (window.location.hash) {
+                        window.history.pushState('', document.title, window.location.pathname);
+                    }
+                }, 300);
             }
         }
-        
+
+        // Fecha modal ao clicar fora
+        document.getElementById('recipeModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeRecipeModal();
+            }
+        });
+
+        // Função de Compartilhar
+        async function shareRecipe() {
+            const modalTitle = document.getElementById('modalTitle').textContent;
+            const shareData = {
+                title: `Receita: ${modalTitle} - Lista Fácil`,
+                text: `Confira essa receita deliciosa de ${modalTitle} no Lista Fácil!`,
+                url: window.location.href
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    // Fallback para área de transferência
+                    await navigator.clipboard.writeText(window.location.href);
+
+                    // Feedback visual simples
+                    const btn = document.querySelector('button[onclick="shareRecipe()"]');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Link Copiado!';
+                    btn.classList.add('bg-green-50', 'text-green-600', 'border-green-200');
+                    btn.classList.remove('bg-white', 'text-purple-600', 'border-purple-100');
+
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.classList.remove('bg-green-50', 'text-green-600', 'border-green-200');
+                        btn.classList.add('bg-white', 'text-purple-600', 'border-purple-100');
+                    }, 2000);
+                }
+            } catch (err) {
+                console.error('Erro ao compartilhar:', err);
+            }
+        }
+
         // Verifica se há hash na URL ao carregar a página
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             const hash = window.location.hash;
             if (hash && hash.length > 1) {
                 const slug = hash.substring(1); // Remove o #
@@ -760,9 +986,9 @@
                 }, 1000);
             }
         });
-        
+
         // Escuta mudanças no hash (botão voltar/avançar do navegador)
-        window.addEventListener('hashchange', function() {
+        window.addEventListener('hashchange', function () {
             const hash = window.location.hash;
             if (hash && hash.length > 1) {
                 const slug = hash.substring(1); // Remove o #
@@ -771,21 +997,14 @@
                 closeRecipeModal();
             }
         });
-        
-        // Fecha modal ao clicar fora
-        document.getElementById('recipeModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeRecipeModal();
-            }
-        });
-        
+
         // Inicializa
         (async () => {
             await loadCategories();
             await loadRecipes();
         })();
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>
